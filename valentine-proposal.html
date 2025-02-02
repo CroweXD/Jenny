@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Jenny ❤️</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            background-color: #ffe6e6;
+            transition: background-color 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        .heart {
+            color: #ff4d6d;
+            font-size: 4rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        .btn-custom {
+            margin: 10px;
+            min-width: 120px;
+            transition: transform 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            position: relative;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 24px;
+            animation: float 3s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart">❤️</div>
+        <h1 class="display-4 mb-4">Dear Jenny</h1>
+        <p class="lead mb-4">Will you be my Valentine?</p>
+        <div>
+            <button id="yesBtn" class="btn btn-lg btn-custom btn-success">Yes!</button>
+            <button id="noBtn" class="btn btn-lg btn-custom btn-danger">No</button>
+        </div>
+        <div id="message" class="mt-4 lead" style="display: none;">
+            <p>Yay! Thank you for making me the happiest person! ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        const colors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#ffb3c1', '#ffccda'];
+        let currentColorIndex = 0;
+        let celebrationInterval;
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const message = document.getElementById('message');
+
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }
+
+        function celebrate() {
+            message.style.display = 'block';
+            noBtn.style.display = 'none';
+            celebrationInterval = setInterval(() => {
+                document.body.style.backgroundColor = colors[currentColorIndex];
+                currentColorIndex = (currentColorIndex + 1) % colors.length;
+                createHeart();
+            }, 500);
+        }
+
+        yesBtn.addEventListener('click', celebrate);
+    </script>
+</body>
+</html>
